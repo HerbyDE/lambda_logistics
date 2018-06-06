@@ -1,0 +1,99 @@
+{% extends 'base_template.html' %}
+{% block title %}Detail | Parcel {{ parcel.track_n }}{% endblock %}
+{% block toggle_list %}active{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+    <img src="{% static 'images/logistics.jpg' %}" class="bg-img"/>
+<div class="container" style="margin-bottom: 30px;">
+
+    <a href="{% url 'corelogistics:parcel_list' %}" type="button" class="btn btn-default" style="margin: 20px 0 20px 0;">
+        <span class="glyphicon glyphicon-chevron-left left"></span>Back to Overview
+    </a>
+    <div class="row container-detail" style="width: 80%; align-self: center;  background-color: rgba(233,233,233,0.8); border-radius: 5px;">
+        <div class="col-md-4">
+            <table class="table table-hover">
+                <h3>Parcel Information</h3>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tracking Number</td>
+                        <td>{{ parcel.track_n }}</td>
+                    </tr>
+                    <tr>
+                        <td>Confirmation Status</td>
+                        <td>{{ parcel.confirmed }}</td>
+                    </tr>
+                    <tr>
+                        <td>ID Verification</td>
+                        <td>{{ parcel.r_id_req }}</td>
+                    </tr>
+                    <tr>
+                        <td>Parcel Dimensions (L x W x H)</td>
+                        <td>{{ parcel.p_depth }}, {{ parcel.p_width }}, {{ parcel.p_height }}</td>
+                    </tr>
+                    <tr>
+                        <td>Parcel Weight</td>
+                        <td>{{ parcel.weight }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>{{ parcel.status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+             <table class="table table-hover">
+                <h3>Destination Information</h3>
+                <thead>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Destination Address</td>
+                        <td>{{ parcel.recipient_address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Destination City & Zip</td>
+                        <td>{{ parcel.recipient_zip }} {{ parcel.recipient_city }}</td>
+                    </tr>
+                    <tr>
+                        <td>Recipient</td>
+                        <td>{{ parcel.recipient_surname }}, {{ parcel.recipient_first_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 bord_col">
+             <table class="table table-hover">
+                <h3>Origin Information</h3>
+                <thead>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Origin Address</td>
+                        <td>{{ parcel.sender_address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Origin Zip & City</td>
+                        <td>{{ parcel.sender_zip }} {{ parcel.sender_city }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sender</td>
+                        <td>{{ parcel.sender_surname }}, {{ parcel.sender_first_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

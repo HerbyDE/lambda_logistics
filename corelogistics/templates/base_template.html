@@ -1,0 +1,120 @@
+{% load staticfiles %}
+{% load tag_filters %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'btstrp/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script>
+        // Added this just so one doesn't have to wait 5 seconds to see if the transition worked. //
+        $(document).ready(function() {
+            $('#Carousel').carousel({
+                interval:   1000
+            });
+        });
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block head %}{% endblock %}
+    </head>
+    <body onload="iniMap(); alert();">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+             <div class="container-fluid">
+                 <div class="navbar-header">
+                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                     </button>
+                     <a class="navbar-brand" href="/"><img src="{% static 'images/logo.png' %}" class="nav-logo"></a>
+                 </div>
+                 <div class="collapse navbar-collapse" id="navbar">
+                     <ul class="nav navbar-nav">
+                         <li class="{%  block toggle_home %}{%  endblock %}"><a href="{% url 'corelogistics:home' %}">
+                             <span class="glyphicon glyphicon-home"></span></a>
+                         </li>
+                         <li class="{%  block toggle_track %}{% endblock %}"><a href="{% url 'corelogistics:track' %}">
+                             <span class="glyphicon glyphicon-envelope"></span> Track Parcel</a>
+                         </li>
+                        {% if user|has_group:'Client' or user.is_superuser or user|has_group:'Warehouse Manager' %}
+                         <li class="{%  block toggle_parcel_new %}{% endblock %}">
+                             <a href="{% url 'corelogistics:new_parcel' %}">
+                                 <span class="glyphicon glyphicon-send left"></span> Create Parcel
+                             </a>
+                         </li>
+                         {% endif %}
+                         {% if user.is_superuser %}
+                         <li class="{%  block toggle_list %}{% endblock %}">
+                             <a href="{% url 'corelogistics:parcel_list' %}">
+                                 <span class="glyphicon glyphicon-list"></span> Parcel List
+                             </a>
+                         </li>
+                         {% endif %}
+                         {% if user|has_group:'Management' or user.is_superuser or user|has_group:'Client' %}
+                         <li class="{% block toggle_dashboard %}{% endblock %}">
+                             <a href="{% url 'corelogistics:dashboard' %}">
+                                 <span class="glyphicon glyphicon-stats"></span> Dashboard
+                             </a>
+                         </li>
+                         {% else %}
+                         {% endif %}
+                         {% if user|has_group:'Driver' or user.is_superuser or user|has_group:'Warehouse Manager' %}
+                             <li class="{% block toggle_driver_log %}{% endblock %}">
+                             <a href="{% url 'corelogistics:driver_log' %}">
+                                 <span class="glyphicon glyphicon-road"></span>
+                                 {% if user|has_group:'Driver' %}
+                                     Driver's Corner
+                                 {% else %}
+                                     Warehouse
+                                 {% endif %}
+                             </a>
+                         </li>
+                         {% else %}
+                         {% endif %}
+                        <li class="{% block toggle_help %}{% endblock %}">
+                            <a href="{% url 'helpdesk:index' %}">
+                                <span class="glyphicon glyphicon-comment"></span> Help Desk
+                            </a>
+                        </li>
+                     </ul>
+                     <ul class="nav navbar-nav navbar-right">
+                         {% if user.is_authenticated %}
+                             <li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                 <span class="glyphicon glyphicon-user"></span>
+                                 {{ user.first_name }} {{ user.last_name }}<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                    <li role="presentation"><a href="#">Profile</a></li>
+                                    <li role="presentation"><a href="{% url 'helpdesk:index' %}">Help</a></li>
+                                    {% if user.is_superuser %}
+                                    <li role="presentation"><a href="/admin/">Admin</a></li>
+                                    {% else %}
+                                    {% endif %}
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation">
+                                        <a href="{% url 'logout' %}">
+                                            <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                    </li>
+                                </ul>
+                             </li>
+                         {% else %}
+                          <li class="{% block toggle_login %}{% endblock %}">
+                              <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                          </li>
+                         {% endif %}
+                     </ul>
+                 </div>
+             </div>
+        </nav>
+        <div style="margin-top: 50px;"></div>
+            {% block content %}
+            {% endblock %}
+        <footer class="container-fluid">
+            <p>Lambda Logistics Corp. </p>
+        </footer>
+    </body>
+</html>

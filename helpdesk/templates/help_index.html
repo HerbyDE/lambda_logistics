@@ -1,0 +1,230 @@
+{% extends 'base_template.html' %}
+{% load tag_filters %}
+{% block toggle_help %}active{% endblock %}
+{% block title %}Help Desk | LL{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+    <img src="{% static 'images/login_background.jpg' %}" class="login-background"/>
+    <div class="container">
+        {%  if user.is_authenticated %}
+        <div class="row" style="margin: 20px 0 30px 0; background-color: rgba(233,233,233,0.5);">
+            <div class="col-md-9">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a style="color: black;" data-toggle="tab" href="#home">READ ME Documentation </a></li>
+                    <li><a style="color: black;" data-toggle="tab" href="#menu1">FAQ</a></li>
+                    <li><a style="color: black;" data-toggle="tab" href="#menu2">Personal Assistance</a></li>
+                    <li><a style="color: black;" data-toggle="tab" href="#menu3">Lambda REST - WebAPI</a></li>
+                </ul><!-- End Header -->
+                <div class="tab-content" style="color: white;">
+                    <div id="home" class="tab-pane fade in active">
+                        <h3>READ ME</h3>
+                        {% if guideline %}
+                            {% for guide in guideline %}
+                            <p>{{ guide.body }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>READ ME not available yet.</p>
+                        {% endif %}
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <h3>FAQ</h3>
+                        {% if int_faq_list %}
+                            <div class="panel-group">
+                                {% for faq in int_faq_list %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse{{ faq.pk }}">{{ faq.title }}</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse{{ faq.pk }}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <p>{{ faq.body }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>There are no FAQ's available yet.</p>
+                        {% endif %}
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <h3>Personal Assistrance</h3>
+                        <form class="form" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ int_form.title | safe | add_class:'form-control input-field' }}
+                            </div>
+                            <div class="form-group">
+                                {{ int_form.technical_issue | safe | add_class:'form-control input-field' }}
+                            </div>
+                            <div class="form-group">
+                                {{ int_form.message | safe | add_class:'form-control text-field' }}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="menu3" class="tab-pane fade" style="color: #0f0f0f;">
+                        <h3>API Documentation</h3>
+                             <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse1">General</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>REST API</li>
+                                                <li>Supported verbs: GET, POST, DELETE</li>
+                                                <li>Data JSON serialized</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse2">API Structure</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>http://example.com/api/ —> Retrieve anonymized Parcel list</li>
+                                                <li>http://example.com/api/tracking#/ —> Retrieve Parcel Details for a certain parcel</li>
+                                                <li>http://example.com/api/pricing/tracking# —> Retrieve quote of a parcel</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse3">Data Structure</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse3" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>fields: 'track_n', 'weight', 'p_height', 'p_depth', 'p_width', 'distance', 'r_id_req', <br>
+                                          'sender_first_name', 'sender_surname', 'sender_address', 'sender_city', 'sender_zip', <br>
+                                          'recipient_first_name', 'recipient_surname', 'recipient_address', 
+                                          'recipient_city', 'recipient_zip'</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse4">Permissions</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>Everyone can use the Pricing API which returns the Price for a certain parcel when having
+                                                tracking number</li>
+                                                <li>The Bidirectional API for requesting parcel details and creating parcels is only accessible to
+                                                registered users with a valid API key</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End row -->
+        {% else %}
+        <div class="row" style="margin: 20px 0 30px 0; background-color: rgba(233,233,233,0.5);">
+            <div class="col-md-9">
+                <div class="col-md-9">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a style="color: black;" data-toggle="tab" href="#home">READ ME Documentation</a></li>
+                    <li><a style="color: black;" data-toggle="tab" href="#menu1">FAQ's</a></li>
+                    <li><a style="color: black;" data-toggle="tab" href="#menu2">Personal Assistance</a></li>
+                </ul><!-- End Header -->
+                <div class="tab-content" style="color: white;">
+                    <div id="home" class="tab-pane fade in active">
+                        <h3>READ ME Guideline</h3>
+                        {% if guideline %}
+                            {% for guide in guideline %}
+                            <p>{{ guide.body }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>No READ ME available yet.</p>
+                        {% endif %}
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <h3>FAQ</h3>
+                        {% if ext_faq_list %}
+                            <div class="panel-group">
+                                {% for faq in ext_faq_list %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse{{ faq.pk }}">{{ faq.title }}</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse{{ faq.pk }}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <p>{{ faq.body }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>There are no FAQ's available yet.</p>
+                        {% endif %}
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <h3>Personal Assistance</h3>
+                        <form class="form" method="post">
+                            {% csrf_token %}
+                            <div class="form-display-controller">
+                                <fieldset class="fieldset" style="margin-right: 20px;">
+                                    <div class="form-group">
+                                        {{ ext_form.name_surname | safe | add_class:'form-control input-field' }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ ext_form.email | safe | add_class:'form-control input-field' }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ ext_form.phone | safe | add_class:'form-control input-field' }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ ext_form.technical_issue | safe | add_class:'form-control input-field' }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success">Send</button>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="fieldset">
+                                    <div class="form-group">
+                                        {{ ext_form.message | safe | add_class:'form-control text-field' }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div><!-- End Row -->
+    {% endif %}
+    </div>
+{% endblock %}

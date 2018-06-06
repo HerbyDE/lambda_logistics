@@ -1,0 +1,68 @@
+{%  load staticfiles  %}
+{% load tag_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{%  block title %}{% endblock %}</title>
+    <link href="{% static 'images/favicon.ico' %}"
+    <!-- Stylesheets -->
+    <link href="{%  static '/static/styles/dskt_style.css' %}" type="text/css" rel="stylesheet" />
+    <link href="{%  static 'styles/mobile.css' %}" type="text/css" rel="stylesheet" />
+    <link href="{%  static 'styles/btstrp/bootstrap.min.css' %}" type="text/css" rel="stylesheet" />
+    <!-- JS Scripts (bootstrap & jQuery) -->
+    <script src="{% static 'js/jQuery/jquery-3.1.1.min.js' %}" ></script>
+    <script src="{% static 'js/btstrp/bootstrap.min.js' %}" ></script>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <div class="navbar-wrapper">
+      <div class="container">
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" class="logo" alt="Lambda Logistics Corp." /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/core/tracking/">Parcel Tracking</a></li>
+                <li><a href="/login/">Login</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Support<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li class="dropdown-header">Client Support</li>
+                      <li><a href="/issue/lost/">Lost Parcel?</a></li>
+                      <li><a href="/issue/customer">Issue Reporting</a></li>
+                      <li><a href="/assistance/">Customer Support</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li class="dropdown-header">Employee Support</li>
+                      <li><a href="/issue/employee">Issue Reporting</a></li>
+                      <li><a href="/assistance/">Employee Support</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <!-- END OF NAVIGATION -->
+
+
+    <div class="content">
+        {%  block content %}
+        {%  endblock %}
+    </div>
+    <footer>{% block footer %}{% endblock %}</footer>
+
+</body>
+</html>

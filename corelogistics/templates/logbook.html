@@ -1,0 +1,278 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+{% load tag_filters %}
+{% block title %}
+    {% if user|has_group:'Driver' %}
+        Driver's Corner | LL
+    {% elif user|has_group:'Warehouse Manager' %}
+        {{ user.employee.location }} Warehouse | LL
+    {% else %}
+        Permission Denied
+    {% endif %}
+{% endblock %}
+{% block toggle_driver_log %}active{% endblock %}
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <img src="{% static 'images/truck_in_a_rush.jpeg' %}" class="bg-img" alt="Rushing Truck"/>
+    {% if  user|has_group:'Driver' or user.is_superuser %}
+    <div class="container">
+            {% if term %}
+                <div class="row" style="margin: 35px 0 0 0;">
+                    <div class="col-md-2">
+                        <a href="{% url 'corelogistics:driver_log' %}" type="button" class="btn btn-default" style="margin-top: 9%;">
+                            <span class="glyphicon glyphicon-chevron-left left"></span>Back to Overview
+                        </a>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="well">Parcels being handled in {{ term }}: {{ total_parcels_in_area }}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="well well-lg" style="margin-top: 20px; align-self: center;">
+                            <h3 style="text-align: center; font-variant: small-caps;">The following parcels need to be handled in {{ term }}</h3>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="well" style="margin-top: 30px;">
+                        <form action="" method="get" class="form">
+                            <div class="form-group">
+                                <select id="term" name="term" class="form-control">
+                                    {% for office in office_list %}
+                                        <option value="{{ office.city }}">{{ office.city }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-search"></span>Get Location
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well dash_well">
+                    <h4 style="font-variant: small-caps;">Parcels to be fetched from Client</h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tracking No.</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Weight</th>
+                                <th>Dimensions</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in city_fetch %}
+                            <tr>
+                                <td>{{ item.track_n }}</td>
+                                <td>{{ item.sender_address }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.weight }}kg</td>
+                                <td>{{ item.p_depth }}cm x {{ item.p_height }}cm x {{ item.p_width }}cm</td>
+                                <td>
+                                    <a href="{% url 'corelogistics:parcel_update' item.pk %}">
+                                        <button class="btn btn-success">Collected</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="well dash_well">
+                    <h4 style="font-variant: small-caps;">Parcels to be collected in Hub</h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tracking No.</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Weight</th>
+                                <th>Dimensions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in city_hub %}
+                            <tr>
+                                <td>{{ item.track_n }}</td>
+                                <td>{{ item.sender_address }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.weight }}kg</td>
+                                <td>{{ item.p_depth }}cm x {{ item.p_height }}cm x {{ item.p_width }}cm</td>
+                                <td>
+                                    <a href="{% url 'corelogistics:parcel_update' item.pk %}">
+                                        <button class="btn btn-success">In Transit</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="well dash_well">
+                    <h4 style="font-variant: small-caps;">Parcels in transit to Recipient</h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tracking No.</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Weight</th>
+                                <th>Dimensions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in city_deliver %}
+                            <tr>
+                                <td>{{ item.track_n }}</td>
+                                <td>{{ item.sender_address }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.weight }}kg</td>
+                                <td>{{ item.p_depth }}cm x {{ item.p_height }}cm x {{ item.p_width }}cm</td>
+                                <td>
+                                    <a href="{% url 'corelogistics:parcel_update' item.pk %}">
+                                        <button class="btn btn-success">Delivered</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if user|has_group:'Warehouse Manager' or user.is_superuser %}
+        <div class="container">
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-12">
+                    <div class="well head_well">
+                        <h3 style="text-align: center;">
+                            {{ user.employee.location }} Warehouse <span style="font-style: italic;;">Dashboard</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="row">
+                    <div class="panel panel-default pan_log">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1">Analytics</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                    <div class="col-md-6">
+                                        {{ parcel_traffic | safe }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ parcel_fin_measures_city | safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group">
+                <div class="row">
+                    <div class="panel panel-default pan_log">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse2">Parcel Handling</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tracking No.</th>
+                                            <th>Destination</th>
+                                            <th>Origin</th>
+                                            <th>Dimensions (LxWxH)</th>
+                                            <th>Weight</th>
+                                            <th>Mark Parcel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for parcel in city_inbound %}
+                                        <tr>
+                                            <td>{{ parcel.pk }}</td>
+                                            <td>{{ parcel.track_n }}</td>
+                                            <td>{{ parcel.recipient_city.city }}</td>
+                                            <td>{{ parcel.sender_city.city }}</td>
+                                            <td>
+                                                {{ parcel.p_length }}cm, {{ parcel.p_width }}cm, {{ parcel.p_depth }}cm
+                                            </td>
+                                            <td>{{ parcel.weight }}kg</td>
+                                            <td>
+                                                <a href="{% url 'corelogistics:parcel_update' parcel.pk %}">
+                                                    <button class="btn btn-primary">Parcel in Warehouse</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tracking No.</th>
+                                                <th>Destination</th>
+                                                <th>Origin</th>
+                                                <th>Dimensions (LxWxH)</th>
+                                                <th>Weight</th>
+                                                <th>Mark Parcel</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for parcel in city_outbound %}
+                                            <tr>
+                                                <td>{{ parcel.pk }}</td>
+                                                <td>{{ parcel.track_n }}</td>
+                                                <td>{{ parcel.recipient_city.city }}</td>
+                                                <td>{{ parcel.sender_city.city }}</td>
+                                                <td>
+                                                    {{ parcel.p_length }}cm, {{ parcel.p_width }}cm, {{ parcel.p_depth }}cm
+                                                </td>
+                                                <td>{{ parcel.weight }}kg</td>
+                                                <td>
+                                                    <a href="{% url 'corelogistics:parcel_update' parcel.pk %}">
+                                                        <button class="btn btn-primary">Out for Delivery</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

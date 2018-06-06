@@ -1,0 +1,111 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+{% load tag_filters %}
+{% block title %}Lambda Corp. Dashboard{% endblock %}
+{% block toggle_dashboard %}active{% endblock %}
+{%  block content %}
+        {%  if user|has_group:'Management' or user.is_superuser %}
+        <div class="container">
+            <h3 class="dash_head" style="text-align: center;">Management Dashboard</h3>
+            <div class="col-md-4" style="text-align: center; color: white;">
+                <h4>Current Parcel Statistics</h4>
+                {{ current | safe }}
+            </div>
+            <div class="col-md-2" style="text-align: center; color: white;">
+                <h4>Financial measures</h4>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Total Revenue</div>
+                    <div class="panel-body" style="color: black;">R
+                        {% if tot_costs == None %}
+                            0
+                        {% else %}
+                            {{ tot_costs | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Revenue This Month</div>
+                    <div class="panel-body" style="color: black;">R
+                        {% if current_costs == None %}
+                            0
+                        {% else %}
+                            {{ current_costs | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Revenue Last Month</div>
+                    <div class="panel-body" style="color: black;">R
+                        {% if previous_costs == None %}
+                            0
+                        {% else %}
+                            {{ previous_costs | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="text-align: center; color: rgba(255,255,255,1);">
+                <h4>Parcel Creation Statistics over Time</h4>
+                {{ overview | safe }}
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; ">
+                    <h3 class="dash_head">Distribution of Weight and Distance</h3>
+                    {{ stat_pie | safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {%  if user|has_group:'Client' or user.is_superuser %}
+            <div class="container">
+                <h3 class="dash_head" style="text-align: center;">Client Dashboard</h3>
+                <div class="col-md-4" style="text-align: center; color: white;">
+                    <h4>Current Parcel Statistics</h4>
+                    {{ current_c | safe }}
+                </div>
+                <div class="col-md-2" style="text-align: center; color: white;">
+                    <h4>Financial measures</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Total Revenue</div>
+                        <div class="panel-body" style="color: black;">R
+                            {% if client_tot_costs == None %}
+                                0
+                            {% else %}
+                                {{ client_tot_costs | safe }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Revenue This Month</div>
+                        <div class="panel-body" style="color: black;">R
+                            {% if client_costs_current == None %}
+                                0
+                            {% else %}
+                                {{ client_costs_current | safe }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Revenue Last Month</div>
+                        <div class="panel-body" style="color: black;">R
+                            {% if client_previous_costs == None %}
+                                0
+                            {% else %}
+                                {{ client_previous_costs | safe }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="text-align: center; color: white;">
+                    <h4>Parcel Creation Statistics over Time</h4>
+                    {{ overview_c | safe }}
+                </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; ">
+                    <h3 class="dash_head">Distribution of Weight and Distance</h3>
+                    {{ dist_charts_c | safe }}
+                </div>
+            </div>
+            </div>
+            {% endif %}
+{% endblock %}

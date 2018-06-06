@@ -1,0 +1,81 @@
+{% extends 'base_template.html' %}
+{% load tag_filters %}
+{% block title %}Create a Parcel{% endblock %}
+{% block toggle_parcel_new %}active{% endblock %}
+{% block head %}<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbaeAF6U00L7lESGoGrFG2xuyWx5f2HlI&callback=initMap">
+    </script>{% endblock %}
+{% block content %}
+    <div id="map" style="position: relative; width: 100%; height: 700px;"></div>
+    <div class="row" style="position: absolute; top: 100px; left: 0; width: 100%; height: 800px; z-index: 2;">
+        <div class="col-md-5" style="margin-left: 4%;">
+            <h1>Create New Parcel</h1>
+            <form method="post" class="create-parcel-form" action="{% url 'corelogistics:new_parcel' %}">
+            {% csrf_token %}
+                <div class="form-display-controller">
+                    <fieldset class="fieldset" style="margin-right: 15px;">
+                        <legend class="legend">Parcel Specs.:</legend>
+                        <div class="form-group">
+                            {{ form.weight | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.p_height | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.p_width | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.p_depth | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.distance | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            <span class="text">Recipient ID required?</span>
+                            {{ form.r_id_req | safe | add_class:'form-control-inline checkbox' }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="fieldset" style="margin-right: 15px;">
+                        <legend class="legend">Recipient Details:</legend>
+                        <div class="form-group">
+                            {{ form.recipient_first_name | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.recipient_surname | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.recipient_address | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.recipient_city | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.recipient_zip | safe | add_class:'form-control input-field' }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="fieldset" >
+                        <legend class="legend">Sender Details:</legend>
+                        <div class="form-group">
+                            {{ form.sender_first_name | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.sender_surname | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.sender_address | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.sender_city | safe | add_class:'form-control input-field' }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.sender_zip | safe | add_class:'form-control input-field' }}
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+        {{ error }}
+    </div>
+{% endblock %}
+

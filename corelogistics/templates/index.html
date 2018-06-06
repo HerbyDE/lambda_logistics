@@ -1,0 +1,50 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+{% block toggle_home %}active{% endblock %}
+{% block title %}Lambda Corp. Home{% endblock %}
+
+{%  block content %}
+    <div id="index-carousel" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="fill" style="background-image: url('{% static 'images/index_truck.png' %}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image: url('{% static 'images/sea.jpg' %}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image: url('{% static 'images/long_road.jpg' %}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image: url('{% static 'images/city.jpg' %}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image: url('{% static 'images/plane1.jpg' %}');"></div>
+                </div>
+            </div>
+        <!-- Left and right controls -->
+            <a class="carousel-control left" href="#index-carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="carousel-control right" href="#index-carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+    </div>
+    <div class="container text-center index_butt">
+        <div class="row">
+            <a href="{% url 'corelogistics:track'  %}" class="butt_text"><div class="col-sm-4  jumbotron j_tron">
+                <img src="{% static 'images/Track_Icon.fw.png' %}" class="img-responsive individual-img" alt="Image">
+                <h3>Parcel Tracking</h3>
+            </div></a>
+            <a href="{% url 'corelogistics:new_parcel' %}" class="butt_text"><div class="col-sm-4  jumbotron j_tron">
+                <img src="{% static 'images/Truck_Icon.fw.png' %}" class="img-responsive individual-img" alt="Image">
+                <h3>Create Parcel</h3>
+            </div></a>
+            <a href="{% url 'helpdesk:index' %}" class="butt_text"><div class="col-sm-4  jumbotron j_tron">
+                <img src="{% static 'images/Help_Desk_Icon.fw.png' %}" class="img-responsive individual-img" alt="Image">
+                <h3>Help Desk</h3>
+            </div></a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base_template.html' %}
+{% block title %}Lambda Logistics | Login{% endblock %}
+{% block toggle_login %}active{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+    <img src="{% static 'images/login_background.jpg' %}" class="login-background"/>
+    <div class="login-container">
+        <div class="row container login-widget">
+            <img src="{% static 'images/logo.png' %}" class="login_logo">
+            <form class="form-horizontal" name="login" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="control-label" for="username" style="color: white;">Username</label>
+                    <input type="text" id="username" name="username"  placeholder="Username" class="form-control input-field">
+                    <span style="color:white; max-width: 200px; margin: 5px 0 0 5px; padding: 0 0 0 0;">Login with corporate e-Mail</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="password" style="color: white;">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" class="form-control input-field">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger" style="margin-top: 5px;">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base_template.html' %}
+{% block title %}Parcel List{% endblock %}
+{% block toggle_list %}active{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+    <img src="{% static 'images/logistics.jpg' %}" class="bg-img"/>
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="container container-fluid">
+                <h3>List of all Parcels</h3>
+                {% regroup parcel_list_all|dictsort:'status' by status as sort_list %}
+                    {% for status in sort_list %}
+                    <table style="background-color: rgba(233,233,233,0.8);  border-radius: 5px;" class="table table-hover">
+                    <h3 style="color: black;"><span class="label label-default list_lab">{{ status.grouper }}</span></h3>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tracking Number</th>
+                            <th>Destination</th>
+                            <th>Origin</th>
+                            <th>Weight</th>
+                            <th>Requires ID</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th>Detail</th>
+                            <th>Quick Update</th>
+                        </tr>
+                    </thead>
+                        {% for parcel in status.list %}
+                    <tbody>
+                    <tr>
+                        <td>{{ parcel.pk }}</td>
+                        <td>{{ parcel.track_n }}</td>
+                        <td>{{ parcel.recipient_address }}<br>{{ parcel.recipient_city }}<br>{{ parcel.recipient_zip }}</td>
+                        <td>{{ parcel.sender_city }}</td>
+                        <td>{{ parcel.weight }} kg</td>
+                        <td>{% if parcel.r_id_req == 'True' %}<span class="glyphicon glyphicon-remove-circle"></span>{% else %}<span class="glyphicon glyphicon-ok-circle"></span>{% endif %}</td>
+                        <td>{{ parcel.status }}</td>
+                        <td>R {{ parcel.price }}</td>
+                        <td><a href="{% url 'corelogistics:parcel_detail' parcel.pk %}"><button class="btn btn-primary">Detail</button></a></td>
+                        <td>
+                            {% if parcel.status == 'Delivered' %}
+                                <a href="{% url 'corelogistics:parcel_reset_admin' parcel.pk %}"><button class="btn btn-primary">Reset</button></a>
+                            {% elif parcel.status == 'In Transit' %}
+                                <a href="{% url 'corelogistics:parcel_update_admin' parcel.pk %}"><button class="btn btn-success">Delivered</button></a>
+                                <a href="{% url 'corelogistics:parcel_delivery_fail_admin' parcel.pk %}"><button class="btn btn-danger">Failed</button></a>
+                            {% elif parcel.status == 'Delivery Failed' %}
+                                <a href="{% url 'corelogistics:parcel_update' parcel.pk %}"><button class="btn btn-success">Delivered</button></a>
+                                <a href="{% url 'corelogistics:parcel_delivery_fail_admin' parcel.pk %}"><button class="btn btn-danger">Failed</button></a>
+                                <p>Times Failed: {{ parcel.failed }}</p>
+                            {% else %}
+                                <a href="{% url 'corelogistics:parcel_update_admin' parcel.pk %}"><button class="btn btn-primary">Update</button></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

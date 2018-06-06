@@ -1,0 +1,236 @@
+html, body {
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+}
+
+.col-sm-4 {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.individual-img {
+    width: 150px;
+    height: 150px;
+    align-self: center;
+}
+
+.individual-img:hover {
+    zoom: 120%;
+}
+
+.nav-logo {
+    width: 40px;
+    height: 40px;
+    margin-top: -7px;
+
+}
+
+.carousel {
+    margin-top: 0;
+    margin-bottom: 20px;
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+}
+
+.active {
+    height: 100%;
+}
+
+.item {
+    background-size: cover;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.login-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+}
+
+.login-widget {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    border: 2px solid white;
+    width: auto;
+    margin: 12% 0 300px 0;
+    padding: 20px 60px 20px 60px;
+    border-radius: 5px;
+    background-color: rgba(63,63,63,0.75)
+}
+
+.login_logo {
+    width: 150px;
+}
+
+.input-field {
+    max-width: 200px;
+}
+
+.in-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.container-detail {
+    border: 2px solid #3c3c3c;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #0f0f0f;
+    color: dimgray;
+}
+
+.j_tron {
+    background-color: rgba(233,233,233,0.4);
+    width: 300px;
+    height: 300px;
+    margin: 10px 10px 0 10px;
+}
+
+.index_butt {
+    margin: -400px auto 0 50%;
+    transform: translate(-42.5%,0);
+}
+
+.butt_text {
+    color: red;
+}
+/*dashboard*/
+.dash-styles {
+    background-color: #3c3c3c;
+}
+
+.dash_head {
+    border-radius: 20px;
+    background-color: lightgrey;
+}
+
+ /*create parcel form*/
+.create-parcel-form {
+    position: relative;
+    padding: 5px 10px 5px 10px;
+    background-color: rgba(63,63,63, 0.6);
+    border-radius: 5px;
+}
+
+.form-display-controller {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.fieldset {
+    color: white;
+}
+
+.legend {
+    color: white;
+}
+
+.checkbox {
+    display: inline;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    break-after: avoid;
+    break-before: avoid;
+}
+
+.btn-line {
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0 0 0;
+}
+
+.bg-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    z-index: -2;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.well {
+    background-color: rgba(233,233,233,0.8);
+}
+
+.svg-container {
+    width: auto;
+    height: auto;
+}
+
+/* parcel list*/
+.list_lab {
+    background-color: #0f0f0f;
+}
+
+/*search*/
+.prog_bar {
+    max-width: 52%;
+    height: 50px;
+    margin: 40px 40px 40px 350px;
+    background-color: orange;
+    border-radius: 50px;
+}
+
+.strp {
+    color: black;
+    background-color: coral;
+}
+
+/*logbook*/
+.dash_well {
+    width: 550px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.head_well {
+    margin-left: -20px;
+}
+
+.pan_log {
+    width: 1150px;
+}
+
+.panel-body {
+    color: black;
+}

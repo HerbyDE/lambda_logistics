@@ -1,0 +1,27 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;\csgray\c100000;\csgenericrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 ### Lambda Logistics API Documentation ###\
+\
+1) General: \
+	- REST API\
+	- Supported verbs: GET, POST, DELETE\
+	- Data JSON serialized \
+	\
+2) API Structure\
+	- http://example.com/api/ \'97> Retrieve anonymized Parcel list\
+	- http://example.com/api/<pk>/ \'97> Retrieve Parcel Details for a certain parcel\
+	- http://example.com/api/pricing/<pk> \'97> Retrieve quote of a parcel\
+\
+3) Data Structure\
+	- fields: \cf2 'track_n', 'weight', 'p_height', 'p_depth', 'p_width', 'distance', 'r_id_req',\uc0\u8232          		  'sender_first_name', 'sender_surname', 'sender_address', 'sender_city', 'sender_zip',\u8232           		  'recipient_first_name', 'recipient_surname', 'recipient_address',\u8232           		  'recipient_city', 'recipient_zip'\
+4) Permissions \
+	- Everyone can use the Pricing API which returns the Price for a certain parcel when having \
+	  tracking number\
+	- The Bidirectional API for requesting parcel details and creating parcels is only accessible to 	  registered users with a valid API key
+\f1 \
+}
